@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - ИНПРОКОМ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html"><img src="images/logo.svg" alt="ИНПРОКОМ"></a>
+                </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="create-request.html" class="nav-item">Создать заявку</a>
+                <a href="profile.html" class="nav-item active">Личный кабинет</a>
+                <a href="admin-panel.html" class="nav-item" id="purchasingPanelBtn" style="display: none;">Панель управления</a>
+                <a href="catalog.html" class="nav-item">Каталог материалов</a>
+                <a href="admin.html" class="nav-item" id="adminPanelBtn" style="display: none;">Админ панель</a>
+            </div>
+            <div class="nav-profile">
+                <span class="profile-name" id="userName">Пользователь</span>
+                <a href="#" onclick="logout(); return false;" class="logout-btn">Выход</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="container">
+        <h1>Личный кабинет</h1>
+        
+        <div class="user-info">
+            <h2>Информация о пользователе</h2>
+            <div class="info-card">
+                <p><strong>ФИО:</strong> <span id="userFullName">-</span></p>
+                <p><strong>Роль:</strong> <span id="userRole">-</span></p>
+                <p><strong>Отдел:</strong> <span id="userDepartment">-</span></p>
+            </div>
+            <a href="#" onclick="logout(); return false;" class="btn btn-secondary">Выйти из аккаунта</a>
+        </div>
+
+        <div class="user-requests">
+            <h2>Мои заявки</h2>
+            
+            <div class="filters">
+                <input type="text" id="profileSearchInput" placeholder="Поиск по наименованию материала">
+                <select id="profileStatusFilter">
+                    <option value="">Все статусы</option>
+                    <option value="pending">В обработке</option>
+                    <option value="approved">Согласована</option>
+                    <option value="rejected">Отклонена</option>
+                    <option value="confirmed">Подтверждена</option>
+                </select>
+                <input type="date" id="profileDateFilter">
+                <button class="btn btn-secondary" onclick="applyProfileFilters()">Применить фильтры</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Наименование материала</th>
+                            <th>Статус</th>
+                            <th>Дата подачи</th>
+                        </tr>
+                    </thead>
+                    <tbody id="profileRequestsTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="profilePrevPage" onclick="changeProfilePage(-1)">Предыдущая</button>
+                <span id="profilePageInfo">Страница 1 из 1</span>
+                <button id="profileNextPage" onclick="changeProfilePage(1)">Следующая</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/requests.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

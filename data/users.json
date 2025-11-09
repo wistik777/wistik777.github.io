@@ -1,0 +1,39 @@
+[
+    {
+        "id": 1,
+        "fullName": "Администратор",
+        "role": "admin",
+        "login": "admin",
+        "password": "admin123",
+        "department": "Администрация",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+        "id": 2,
+        "fullName": "Иванов Иван Иванович",
+        "role": "employee",
+        "login": "ivanov",
+        "password": "123456",
+        "department": "Отдел продаж",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+        "id": 3,
+        "fullName": "Петров Петр Петрович",
+        "role": "manager",
+        "login": "petrov",
+        "password": "123456",
+        "department": "Отдел продаж",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    },
+    {
+        "id": 4,
+        "fullName": "Сидоров Сидор Сидорович",
+        "role": "purchasing",
+        "login": "sidorov",
+        "password": "123456",
+        "department": "Отдел закупок",
+        "createdAt": "2024-01-01T00:00:00.000Z"
+    }
+]
+

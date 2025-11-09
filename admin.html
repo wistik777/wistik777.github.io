@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Админ панель - ИНПРОКОМ</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <a href="index.html"><img src="images/logo.svg" alt="ИНПРОКОМ"></a>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="create-request.html" class="nav-item">Создать заявку</a>
+                <a href="profile.html" class="nav-item">Личный кабинет</a>
+                <a href="admin-panel.html" class="nav-item" id="purchasingPanelBtn" style="display: none;">Панель управления</a>
+                <a href="catalog.html" class="nav-item">Каталог материалов</a>
+                <a href="admin.html" class="nav-item active" id="adminPanelBtn">Админ панель</a>
+            </div>
+            <div class="nav-profile">
+                <span class="profile-name" id="userName">Пользователь</span>
+                <a href="#" onclick="logout(); return false;" class="logout-btn">Выход</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="container">
+        <div class="admin-panel-header">
+            <h1>Админ панель</h1>
+            <a href="index.html" class="btn btn-secondary">Вернуться</a>
+        </div>
+        
+        <div class="admin-tabs">
+            <button class="tab-btn active" onclick="showAdminTab('employees')">Сотрудники</button>
+            <button class="tab-btn" onclick="showAdminTab('catalog')">Каталог</button>
+        </div>
+        
+        <!-- Блок сотрудников -->
+        <div id="employeesTab" class="admin-tab-content">
+            <div class="admin-section">
+                <div class="section-header">
+                    <h2>Управление сотрудниками</h2>
+                    <button class="btn btn-primary" onclick="showAddUserForm()">Добавить пользователя</button>
+                </div>
+                <div class="filters">
+                    <input type="text" id="employeeSearchInput" placeholder="Поиск по имени сотрудника">
+                    <select id="roleFilter">
+                        <option value="">Все роли</option>
+                        <option value="employee">Сотрудник</option>
+                        <option value="manager">Руководитель отдела</option>
+                        <option value="purchasing">Отдел закупок</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                    <button class="btn btn-secondary" onclick="applyEmployeeFilters()">Применить фильтры</button>
+                </div>
+                <div class="table-container">
+                    <table id="employeesTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>ФИО</th>
+                                <th>Роль</th>
+                                <th>Логин</th>
+                                <th>Пароль</th>
+                                <th>Отдел</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="employeesTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button id="employeePrevPage" onclick="changeEmployeePage(-1)">Предыдущая</button>
+                    <span id="employeePageInfo">Страница 1 из 1</span>
+                    <button id="employeeNextPage" onclick="changeEmployeePage(1)">Следующая</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Блок каталога -->
+        <div id="catalogTab" class="admin-tab-content" style="display: none;">
+            <div class="admin-section">
+                <div class="section-header">
+                    <h2>Управление каталогом</h2>
+                    <button class="btn btn-primary" onclick="showAddMaterialForm()">Добавить материал</button>
+                </div>
+                <div class="filters">
+                    <input type="text" id="adminCatalogSearchInput" placeholder="Поиск по наименованию материала">
+                    <button class="btn btn-secondary" onclick="applyAdminCatalogFilters()">Поиск</button>
+                </div>
+                <div class="table-container">
+                    <table id="adminCatalogTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Наименование</th>
+                                <th>Технические характеристики</th>
+                                <th>Единица измерения</th>
+                                <th>Действия</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminCatalogTableBody">
+                        </tbody>
+                    </table>
+                </div>
+                <div class="pagination">
+                    <button id="adminCatalogPrevPage" onclick="changeAdminCatalogPage(-1)">Предыдущая</button>
+                    <span id="adminCatalogPageInfo">Страница 1 из 1</span>
+                    <button id="adminCatalogNextPage" onclick="changeAdminCatalogPage(1)">Следующая</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Форма добавления пользователя -->
+    <div id="addUserModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить пользователя</h3>
+                <button class="close-btn" onclick="closeAddUserForm()">&times;</button>
+            </div>
+            <form id="addUserForm">
+                <div class="form-group">
+                    <label for="userFullNameInput">ФИО сотрудника:</label>
+                    <input type="text" id="userFullNameInput" name="fullName" required>
+                </div>
+                <div class="form-group">
+                    <label for="userRoleInput">Роль:</label>
+                    <select id="userRoleInput" name="role" required>
+                        <option value="">Выберите роль</option>
+                        <option value="employee">Сотрудник</option>
+                        <option value="manager">Руководитель отдела</option>
+                        <option value="purchasing">Отдел закупок</option>
+                        <option value="admin">Администратор</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="userLoginInput">Логин:</label>
+                    <input type="text" id="userLoginInput" name="login" required>
+                </div>
+                <div class="form-group">
+                    <label for="userPasswordInput">Пароль:</label>
+                    <input type="password" id="userPasswordInput" name="password" required>
+                </div>
+                <div class="form-group">
+                    <label for="userDepartmentInput">Отдел:</label>
+                    <input type="text" id="userDepartmentInput" name="department" required>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddUserForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Форма добавления материала -->
+    <div id="addMaterialModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Добавить материал</h3>
+                <button class="close-btn" onclick="closeAddMaterialForm()">&times;</button>
+            </div>
+            <form id="addMaterialForm">
+                <div class="form-group">
+                    <label for="materialNameInput">Наименование материала:</label>
+                    <input type="text" id="materialNameInput" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="materialSpecificationsInput">Технические характеристики:</label>
+                    <textarea id="materialSpecificationsInput" name="specifications" rows="3"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="materialUnitInput">Единица измерения:</label>
+                    <select id="materialUnitInput" name="unit" required>
+                        <option value="шт">шт</option>
+                        <option value="кг">кг</option>
+                        <option value="м">м</option>
+                        <option value="м²">м²</option>
+                        <option value="м³">м³</option>
+                        <option value="л">л</option>
+                        <option value="т">т</option>
+                        <option value="пачка">пачка</option>
+                        <option value="коробка">коробка</option>
+                        <option value="картридж">картридж</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Добавить</button>
+                    <button type="button" class="btn btn-secondary" onclick="closeAddMaterialForm()">Отмена</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/admin.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

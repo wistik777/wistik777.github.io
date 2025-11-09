@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Создание заявки - ИНПРОКОМ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html"><img src="images/logo.svg" alt="ИНПРОКОМ"></a>
+                </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="create-request.html" class="nav-item active">Создать заявку</a>
+                <a href="profile.html" class="nav-item">Личный кабинет</a>
+                <a href="admin-panel.html" class="nav-item" id="purchasingPanelBtn" style="display: none;">Панель управления</a>
+                <a href="catalog.html" class="nav-item">Каталог материалов</a>
+                <a href="admin.html" class="nav-item" id="adminPanelBtn" style="display: none;">Админ панель</a>
+            </div>
+            <div class="nav-profile">
+                <span class="profile-name" id="userName">Пользователь</span>
+                <a href="#" onclick="logout(); return false;" class="logout-btn">Выход</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="container">
+        <h1>Создание заявки</h1>
+        
+        <form id="createRequestForm" class="request-form">
+            <div class="form-group">
+                <label for="materialSelect">Выберите материал из каталога:</label>
+                <select id="materialSelect" name="material" required>
+                    <option value="">Выберите материал</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="quantity">Количество:</label>
+                <input type="number" id="quantity" name="quantity" required min="1" placeholder="Введите количество">
+            </div>
+
+            <div class="form-group">
+                <label for="unit">Единица измерения:</label>
+                <select id="unit" name="unit" required>
+                    <option value="">Выберите единицу измерения</option>
+                    <option value="шт">шт</option>
+                    <option value="кг">кг</option>
+                    <option value="м">м</option>
+                    <option value="м²">м²</option>
+                    <option value="м³">м³</option>
+                    <option value="л">л</option>
+                    <option value="т">т</option>
+                    <option value="пачка">пачка</option>
+                    <option value="коробка">коробка</option>
+                    <option value="картридж">картридж</option>
+                </select>
+                <small style="color: #666; font-size: 0.9rem; display: block; margin-top: 0.25rem;">
+                    Единица измерения будет автоматически установлена при выборе материала
+                </small>
+            </div>
+
+            <div class="form-group">
+                <label for="requiredDate">Дата, к которой нужен материал:</label>
+                <input type="date" id="requiredDate" name="requiredDate" required>
+            </div>
+
+            <div class="form-group">
+                <label for="justification">Обоснование необходимости:</label>
+                <textarea id="justification" name="justification" required minlength="10" maxlength="250" 
+                    placeholder="Опишите необходимость в материале (10-250 символов)"></textarea>
+                <div class="char-count">
+                    <span id="charCount">0</span>/250 символов
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Отправить на согласование</button>
+        </form>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/requests.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

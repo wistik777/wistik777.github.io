@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог материалов - ИНПРОКОМ</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+                <div class="nav-logo">
+                    <a href="index.html"><img src="images/logo.svg" alt="ИНПРОКОМ"></a>
+                </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-item">Главная</a>
+                <a href="create-request.html" class="nav-item">Создать заявку</a>
+                <a href="profile.html" class="nav-item">Личный кабинет</a>
+                <a href="admin-panel.html" class="nav-item" id="purchasingPanelBtn" style="display: none;">Панель управления</a>
+                <a href="catalog.html" class="nav-item active">Каталог материалов</a>
+                <a href="admin.html" class="nav-item" id="adminPanelBtn" style="display: none;">Админ панель</a>
+            </div>
+            <div class="nav-profile">
+                <span class="profile-name" id="userName">Пользователь</span>
+                <a href="#" onclick="logout(); return false;" class="logout-btn">Выход</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="mainContent" class="container">
+        <h1>Каталог материалов</h1>
+        
+        <div class="catalog-content">
+            <div class="filters">
+                <input type="text" id="catalogSearchInput" placeholder="Поиск по наименованию материала">
+                <button class="btn btn-secondary" onclick="applyCatalogFilters()">Применить фильтры</button>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Наименование</th>
+                            <th>Технические характеристики</th>
+                            <th>Единица измерения</th>
+                        </tr>
+                    </thead>
+                    <tbody id="catalogTableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                <button id="catalogPrevPage" onclick="changeCatalogPage(-1)">Предыдущая</button>
+                <span id="catalogPageInfo">Страница 1 из 1</span>
+                <button id="catalogNextPage" onclick="changeCatalogPage(1)">Следующая</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/data.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/catalog.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
