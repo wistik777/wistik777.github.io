@@ -36,6 +36,29 @@ class App {
             return;
         }
 
+        // Если это страница 404, не проверяем авторизацию
+        if (page === '404.html') {
+            return;
+        }
+
+        // Список существующих страниц
+        const validPages = [
+            'index.html',
+            'create-request.html',
+            'profile.html',
+            'admin-panel.html',
+            'catalog.html',
+            'admin.html',
+            'login.html',
+            '404.html'
+        ];
+
+        // Проверка существования страницы
+        if (!validPages.includes(page)) {
+            window.location.href = '404.html';
+            return;
+        }
+
         const currentUser = authManager.getCurrentUser();
         if (!currentUser) {
             window.location.href = 'login.html';
@@ -73,48 +96,57 @@ class App {
 
     // Загрузка данных для страницы
     async loadPageData(pageName) {
-        // Проверка авторизации
-        const currentUser = authManager.getCurrentUser();
-        if (!currentUser) {
-            window.location.href = 'login.html';
-            return;
-        }
+        try {
+            // Проверка авторизации
+            const currentUser = authManager.getCurrentUser();
+            if (!currentUser) {
+                window.location.href = 'login.html';
+                return;
+            }
 
-        // Обновление интерфейса
-        authManager.updateUserInterface();
+            // Обновление интерфейса
+            authManager.updateUserInterface();
 
-        // Загрузка данных в зависимости от страницы
-        const page = pageName.toLowerCase();
-        
-        if (page.includes('index') || page === 'home') {
-            if (requestManager) {
-                requestManager.displayHomeRequests();
-            }
-        } else if (page.includes('create-request') || page === 'createrequest') {
-            if (requestManager) {
-                await requestManager.loadMaterials();
-            }
-        } else if (page.includes('profile')) {
-            if (requestManager) {
-                requestManager.displayProfileRequests();
-            }
-        } else if (page.includes('admin-panel')) {
-            // Проверка доступа к панели управления
-            if (currentUser.role === 'purchasing' || currentUser.role === 'admin') {
+            // Загрузка данных в зависимости от страницы
+            const page = pageName.toLowerCase();
+            
+            if (page.includes('index') || page === 'home') {
                 if (requestManager) {
-                    requestManager.displayAdminRequests();
+                    requestManager.displayHomeRequests();
                 }
-            } else {
-                window.location.href = 'index.html';
+            } else if (page.includes('create-request') || page === 'createrequest') {
+                if (requestManager) {
+                    await requestManager.loadMaterials();
+                }
+            } else if (page.includes('profile')) {
+                if (requestManager) {
+                    requestManager.displayProfileRequests();
+                }
+            } else if (page.includes('admin-panel')) {
+                // Проверка доступа к панели управления
+                if (currentUser.role === 'purchasing' || currentUser.role === 'admin') {
+                    if (requestManager) {
+                        requestManager.displayAdminRequests();
+                    }
+                } else {
+                    window.location.href = 'index.html';
+                }
+            } else if (page.includes('admin.html')) {
+                if (adminManager) {
+                    adminManager.showAdminTab('employees');
+                }
+            } else if (page.includes('catalog')) {
+                if (catalogManager) {
+                    catalogManager.displayCatalog();
+                }
+            } else if (page !== '404.html' && page !== 'login.html') {
+                // Если страница не распознана, перенаправляем на 404
+                window.location.href = '404.html';
             }
-        } else if (page.includes('admin.html')) {
-            if (adminManager) {
-                adminManager.showAdminTab('employees');
-            }
-        } else if (page.includes('catalog')) {
-            if (catalogManager) {
-                catalogManager.displayCatalog();
-            }
+        } catch (error) {
+            console.error('Ошибка при загрузке данных страницы:', error);
+            // При ошибке перенаправляем на 404
+            window.location.href = '404.html';
         }
     }
 

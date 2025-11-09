@@ -57,8 +57,13 @@ class DataManager {
                 } else {
                     this.users = fileUsers;
                 }
+            } else if (usersResponse.status === 404) {
+                // Если файл не найден (404), используем localStorage или пустой массив
+                console.warn('Файл users.json не найден (404), используется localStorage');
+                const localUsers = localStorage.getItem('users');
+                this.users = localUsers ? JSON.parse(localUsers) : [];
             } else {
-                // Если файл недоступен, используем localStorage
+                // Если файл недоступен по другой причине, используем localStorage
                 const localUsers = localStorage.getItem('users');
                 this.users = localUsers ? JSON.parse(localUsers) : [];
             }
@@ -76,8 +81,13 @@ class DataManager {
                 } else {
                     this.materials = fileMaterials;
                 }
+            } else if (materialsResponse.status === 404) {
+                // Если файл не найден (404), используем localStorage или пустой массив
+                console.warn('Файл materials.json не найден (404), используется localStorage');
+                const localMaterials = localStorage.getItem('materials');
+                this.materials = localMaterials ? JSON.parse(localMaterials) : [];
             } else {
-                // Если файл недоступен, используем localStorage
+                // Если файл недоступен по другой причине, используем localStorage
                 const localMaterials = localStorage.getItem('materials');
                 this.materials = localMaterials ? JSON.parse(localMaterials) : [];
             }
@@ -95,8 +105,13 @@ class DataManager {
                 } else {
                     this.requests = fileRequests;
                 }
+            } else if (requestsResponse.status === 404) {
+                // Если файл не найден (404), используем localStorage или пустой массив
+                console.warn('Файл requests.json не найден (404), используется localStorage');
+                const localRequests = localStorage.getItem('requests');
+                this.requests = localRequests ? JSON.parse(localRequests) : [];
             } else {
-                // Если файл недоступен, используем localStorage
+                // Если файл недоступен по другой причине, используем localStorage
                 const localRequests = localStorage.getItem('requests');
                 this.requests = localRequests ? JSON.parse(localRequests) : [];
             }
