@@ -13,4 +13,4 @@ Allow: /assets/
 Allow: /css/
 Allow: /js/
 
-Sitemap: https://wistik777.github.io/ВАШ_РЕПОЗИТОРИЙ/sitemap.xml
+Sitemap: https://wistik777.github.io/sitemap.xml
